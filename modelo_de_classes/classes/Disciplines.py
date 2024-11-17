@@ -1,4 +1,6 @@
 # This is based off a basic CRUD (Crate-Read-Update-Delete) model
+import professores as pf
+
 class Disciplines:
 
     # Creates a Discipline Object
@@ -16,13 +18,14 @@ class Disciplines:
             'Código da matéria: ': self.code,
             'Carga Horária: ': self.workload,
         }
+        print('\n')
         for key, value in info.items():
             print(f'{key}{value}')
 
         if not self.professors == []:
             print(f'professores:')
             for professor in self.professors:
-                print(f'\n  {professor.name} ID: {professor.ID}\n')
+                print(f'{professor.name} ID: {professor.ID}')
         else:
             print(f'Nenhum professor atribuído.\n')
 
@@ -30,12 +33,12 @@ class Disciplines:
     def add_professor(self, professor):
         if not professor in self.professors:
             self.professors.append(professor)
-            print(f"Professor adicionado a {self.name}.\n")
+            print(f"Professor {professor.name} adicionado a {self.name}.")
         else:
-            print(f"Professor já ministra {self.name}.\n")
+            print(f"Professor {professor.name} já ministra {self.name}.")
 
     # Deletes a Teacher to discipline
-    def delete_professor(self, professor):
+    def remove_professor(self, professor):
         if professor in self.professors:
             self.professors.remove(professor)
             print(f'{professor.name} removido(a) de {self.name}')
@@ -47,9 +50,13 @@ class Disciplines:
         self.name = name
         self.code = code
         self.workload = workload
-        self.professor = professor
+        self.professors.append(professor)
         print(f'A disciplina {self.name} ID: {self.code} foi atualizada.')
 
     # Erases a discipline
-    def __del__(self):
+    def delete(self):
         print(f'A disciplina {self.name} ID: {self.code} foi deletada.')
+        self.name = None
+        self.code = None
+        self.workload = None
+        self.professors.clear()

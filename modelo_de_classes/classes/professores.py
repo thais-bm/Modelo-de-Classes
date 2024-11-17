@@ -1,4 +1,5 @@
 # This is based off a basic CRUD (Crate-Read-Update-Delete) model
+import Disciplines as dp
 class Professor:
 
     # Creates a teacher Object
@@ -25,7 +26,7 @@ class Professor:
         self.disciplines.append(subject)
 
     # Deletes a discipline to Teacher
-    def delete_teacher(self, subject):
+    def remove_discipline(self, subject):
         self.disciplines.remove(subject)
 
     # Changes information of a teacher
@@ -37,5 +38,9 @@ class Professor:
         print(f'As informações do professor {self.name} ID: {self.ID} foram atualizadas.')
 
     # Erases a teacher
-    def __del__(self):
+    def delete(self):
         print(f'As informações do professor {self.name} ID: {self.ID} foram deletadas.')
+        self.name = None
+        self.ID = None
+        self.departament = None
+        self.disciplines.clear()
