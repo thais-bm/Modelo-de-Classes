@@ -16,8 +16,9 @@ class Professor:
         info = {
             'Nome: ': self.name,
             'ID: ': self.ID,
-            'Departamento: ': self.departament,
-            'Disciplinas: ': [f'{disciplines.name} ID: {disciplines.code}' for disciplines in self.disciplines] if self.disciplines else 'Nenhuma disciplina atribuída'
+            'Departamento: ': self.departament.name,
+            'Disciplinas: ': [f'{disciplines.name} ID: {disciplines.code}' for disciplines in self.disciplines]
+                                if self.disciplines else 'Nenhuma disciplina atribuída'
         }
         for key, value in info.items():
             print(f'{key}{value}')

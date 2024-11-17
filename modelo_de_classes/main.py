@@ -93,6 +93,16 @@ def add_prof_to_class(prof, materia):
     prof.add_discipline(materia)
     materia.add_professor(prof)
 
+def teste_depart():
+    departament1 = Depart.Department('Computaria', id_generate('Computaria'), 'Cabaré')
+    departament2 = Depart.Department('Eu programo com C#', id_generate('eu programo com C#'), 'Cabaré')
+    professor1 = pf.Professor('Cavalo', id_generate('Cavalo'), None)
+    departament1.add_teacher(professor1)
 
+    print('\n')
+
+    departament2.update_professor_department(professor1, departament2)
+
+    professor1.get_info()
 if __name__ == '__main__':
-    teste_disciplinas()
+    teste_depart()
