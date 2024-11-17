@@ -20,6 +20,14 @@ def teste_disciplinas():
     materia3 = Dp.Disciplines('Matemática Discreta', id_generate('Matemática Discreta'), 12)
     materia4 = Dp.Disciplines('Histologia de Ondas Alternantes 3', id_generate('Histologia de Ondas Alternantes 3'), 12)
 
+    print('\nCriando Universidades')
+    universidade1 = uni.Universidade('UFAM', id_generate('UFAM'))
+    universidade2 = uni.Universidade('UEA', id_generate('UEA'))
+
+    print('\nCriando Departamentos')
+    departament1 = Depart.Department('Computaria', id_generate('Computaria'))
+    departament2 = Depart.Department('Terraplanismo', id_generate('Terraplanismo'))
+
     print('\nAdicionando professores a disciplinas e vice versa')
     add_prof_to_class(professor1, materia1)
     add_prof_to_class(professor2, materia1)
@@ -27,6 +35,16 @@ def teste_disciplinas():
     add_prof_to_class(professor3, materia3)
     add_prof_to_class(professor4, materia4)
     add_prof_to_class(professor1, materia2)
+
+    print(f'\nAdicionando professores a departamentos')
+    departament1.add_teacher(professor1)
+    departament1.add_teacher(professor2)
+    departament2.add_teacher(professor3)
+    departament2.add_teacher(professor4)
+
+    print(f'\nAdicionando departamento a universidades')
+    universidade1.add_department(departament1)
+    universidade2.add_department(departament2)
 
     print('\nMostrnado informação das disciplinas')
     materia1.get_info()
@@ -39,6 +57,18 @@ def teste_disciplinas():
     professor2.get_info()
     professor3.get_info()
     professor4.get_info()
+
+    print('\nMostrando informação dos departamentos')
+    departament1.get_info()
+    departament2.get_info()
+
+    print('\nMonstrando informação de universidades')
+    universidade1.get_info()
+    universidade2.get_info()
+
+    print('\nDeletando universidades (é pra deletar os departamentos juntos)')
+    universidade1.delete_university()
+    universidade2.delete_university()
 
     print('\nApagando os professores')
     delete_professor(professor1)
@@ -93,16 +123,6 @@ def add_prof_to_class(prof, materia):
     prof.add_discipline(materia)
     materia.add_professor(prof)
 
-def teste_depart():
-    departament1 = Depart.Department('Computaria', id_generate('Computaria'), 'Cabaré')
-    departament2 = Depart.Department('Eu programo com C#', id_generate('eu programo com C#'), 'Cabaré')
-    professor1 = pf.Professor('Cavalo', id_generate('Cavalo'), None)
-    departament1.add_teacher(professor1)
 
-    print('\n')
-
-    departament2.update_professor_department(professor1, departament2)
-
-    professor1.get_info()
 if __name__ == '__main__':
-    teste_depart()
+    teste_disciplinas()

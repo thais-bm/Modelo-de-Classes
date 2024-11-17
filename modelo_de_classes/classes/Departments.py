@@ -2,15 +2,15 @@
 # Departments.py
 
 class Department:
-    def __init__(self, department_name, departament_code, departament_university):
+    def __init__(self, department_name, departament_code):
         self.name = department_name
         self.code = departament_code
-        self.university = departament_university
+        self.university = None
         self.professores = []
 
     # Outputs the information of the department
     def get_info(self):
-        return {
+        info = {
             'name': self.name,
             'code': self.code,
             'university': self.university,
@@ -18,14 +18,21 @@ class Department:
                             if self.professores else 'No professores assigned'
         }
 
-    # Shows the name and ID of all techers who are in the department
+        for key, value in info.items():
+            print(f'{key}{value}')
+        print('\n')
+
+    # Shows the name and ID of all teachers who are in the department
     def list_teachers(self):
-        return {
+        info = {
             'professores: ': [f'{professor.name} ID: {professor.ID}' for professor in self.professores]
                             if self.professores else 'No professores assigned'
         }
+        for key, value in info.items():
+            print(f'{key}{value}')
+        print('\n')
 
-    # Adds a teacher to the department (if he's in another department, he will warn and not add it')
+    # Adds a teacher to the department (if he's in another department, he will warn and not add it)
     def add_teacher(self, professor):
         if professor.departament is None:
             self.professores.append(professor)
