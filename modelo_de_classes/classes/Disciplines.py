@@ -2,11 +2,11 @@
 class Disciplines:
 
     # Creates a Discipline Object
-    def __init__(self, name, code, workload, teacher=None):
+    def __init__(self, name, code, workload):
         self.name = name
         self.code = code
         self.workload = workload
-        self.teacher = teacher
+        self.professors = []
         print(f'A disciplina {self.name} ID: {self.code} foi criada.')
 
     # Outputs the information of the discipline
@@ -15,25 +15,39 @@ class Disciplines:
             'Nome da matéria: ': self.name,
             'Código da matéria: ': self.code,
             'Carga Horária: ': self.workload,
-            'Professores: ': self.teacher if self.teacher else 'Nenhum professor atribuído'
         }
         for key, value in info.items():
             print(f'{key}{value}')
 
+        if not self.professors == []:
+            print(f'professores:')
+            for professor in self.professors:
+                print(f'\n  {professor[0]} ID: {professor[1]}\n')
+        else:
+            print(f'Nenhum professor atribuído.\n')
+
     # Adds a Teacher to discipline
-    def add_teacher(self):
-        pass
+    def add_professor(self, professor):
+        if not professor in self.professors:
+            self.professors.append(professor)
+            print(f"Professor adicionado a {self.name}.\n")
+        else:
+            print(f"Professor já ministra {self.name}.\n")
 
     # Deletes a Teacher to discipline
-    def delete_teacher(self):
-        pass
+    def delete_professor(self, professor):
+        if [professor.name, professor.ID] in self.professors:
+            self.professors.remove([professor.name, professor.ID])
+            print(f'{professor.name} removido(a) de {self.name}')
+        else:
+            print(f'Professor não ministra {self.name}.\n')
 
     # Changes information of a discipline
-    def update(self, name, code, workload, teacher=None):
+    def update(self, name, code, workload, professor=None):
         self.name = name
         self.code = code
         self.workload = workload
-        self.teacher = teacher
+        self.professor = professor
         print(f'A disciplina {self.name} ID: {self.code} foi atualizada.')
 
     # Erases a discipline

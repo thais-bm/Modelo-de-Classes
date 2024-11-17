@@ -1,12 +1,12 @@
 # This is based off a basic CRUD (Crate-Read-Update-Delete) model
-class Teachers:
+class Professor:
 
     # Creates a teacher Object
-    def __init__(self, name, code, departament, disciplines=None):
+    def __init__(self, name, code, departament):
         self.name = name
         self.ID = code
         self.departament = departament
-        self.disciplines = disciplines
+        self.disciplines = []
         print(f'O professor {self.name} ID: {self.ID} foi adicionado.')
 
     # Outputs the information of the teacher
@@ -21,8 +21,8 @@ class Teachers:
             print(f'{key}{value}')
 
     # Adds a discipline to Teacher
-    def add_discipline(self):
-        pass
+    def add_discipline(self, subject):
+        self.disciplines.append(subject)
 
     # Deletes a discipline to Teacher
     def delete_teacher(self):
