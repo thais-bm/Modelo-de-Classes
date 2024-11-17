@@ -24,12 +24,8 @@ class Department:
 
     # Shows the name and ID of all teachers who are in the department
     def list_teachers(self):
-        info = {
-            'professores: ': [f'{professor.name} ID: {professor.ID}' for professor in self.professores]
-                            if self.professores else 'No professores assigned'
-        }
-        for key, value in info.items():
-            print(f'{key}{value}')
+        print(f'Professores do departamento de {self.name}: {[f'{professor.name} ID: {professor.ID}' for professor in self.professores]
+                                                            if self.professores else 'No professores assigned'}')
         print('\n')
 
     # Adds a teacher to the department (if he's in another department, he will warn and not add it)
