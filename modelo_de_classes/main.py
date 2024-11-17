@@ -6,7 +6,6 @@ from classes import professores as pf
 
 existing_ID_list = []
 
-
 def teste_disciplinas():
     print('Criando Professores')
     professor1 = pf.Professor('Jumento', id_generate('Jumento'), None)
@@ -51,6 +50,12 @@ def teste_disciplinas():
     materia2.get_info()
     materia3.get_info()
     materia4.get_info()
+
+    print('\nListando professores e departamentos')
+    departament1.list_teachers()
+    departament2.list_teachers()
+    universidade1.list_departments()
+    universidade2.list_departments()
 
     print('\nMostrando informação dos professores')
     professor1.get_info()
