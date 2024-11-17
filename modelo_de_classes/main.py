@@ -19,14 +19,15 @@ def teste_disciplinas():
     prof_to_class(professor1, materia1)
     prof_to_class(professor2, materia1)
     prof_to_class(professor3, materia1)
-    prof_to_class(professor3, materia1)
+    prof_to_class(professor3, materia3)
     prof_to_class(professor4, materia1)
     prof_to_class(professor1, materia2)
     materia1.get_info()
 
     prof_deletion(professor1)
     prof_deletion(professor2)
-
+    disc_deletion(materia1)
+    prof_deletion(professor3)
 
 def ID_generate(name = str):
     new_id = ''
@@ -54,9 +55,15 @@ def prof_deletion(prof = Pf.Professor):
         materia.delete_professor(prof)
     prof.__del__()
 
+def disc_deletion(materia = Dp.Disciplines):
+    for prof in materia.professors:
+        prof.disciplines.remove(materia)
+    materia.__del__()
+
+
 def prof_to_class(prof = Pf.Professor, materia = Dp.Disciplines):
     prof.add_discipline(materia)
-    materia.add_professor([prof.name, prof.ID])
+    materia.add_professor(prof)
     print(f'professor {prof.name} adicionado na disciplina {materia.name}')
 
 if __name__ == '__main__':

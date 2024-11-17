@@ -22,7 +22,7 @@ class Disciplines:
         if not self.professors == []:
             print(f'professores:')
             for professor in self.professors:
-                print(f'\n  {professor[0]} ID: {professor[1]}\n')
+                print(f'\n  {professor.name} ID: {professor.ID}\n')
         else:
             print(f'Nenhum professor atribuído.\n')
 
@@ -36,8 +36,8 @@ class Disciplines:
 
     # Deletes a Teacher to discipline
     def delete_professor(self, professor):
-        if [professor.name, professor.ID] in self.professors:
-            self.professors.remove([professor.name, professor.ID])
+        if professor in self.professors:
+            self.professors.remove(professor)
             print(f'{professor.name} removido(a) de {self.name}')
         else:
             print(f'Professor não ministra {self.name}.\n')

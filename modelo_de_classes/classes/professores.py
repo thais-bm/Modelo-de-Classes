@@ -25,8 +25,8 @@ class Professor:
         self.disciplines.append(subject)
 
     # Deletes a discipline to Teacher
-    def delete_teacher(self):
-        pass
+    def delete_teacher(self, subject):
+        self.disciplines.remove(subject)
 
     # Changes information of a teacher
     def update(self, name, code, departament, disciplines=None):
