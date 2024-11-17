@@ -3,7 +3,8 @@ class Universidade:
     def __init__(self, university_name, university_id):
         self.university_name = university_name
         self.university_ID = university_id
-        self.departments = []  # Lista de departamentos (não mais um único departamento)
+        self.departments = []
+        print(f'A universidade {self.university_name} ID: {self.university_ID} foi criada.')
 
     def add_department(self, department):
         if department not in self.departments:

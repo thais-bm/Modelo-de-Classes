@@ -7,6 +7,7 @@ class Department:
         self.code = departament_code
         self.university = None
         self.professores = []
+        print(f'O departamento {self.name} Código: {self.code} foi criado.')
 
     # Outputs the information of the department
     def get_info(self):

@@ -17,6 +17,7 @@ class Professor:
             'Nome: ': self.name,
             'ID: ': self.ID,
             'Departamento: ': self.departament.name,
+            'Departamento da Universidade: ': self.departament.university.university_name,
             'Disciplinas: ': [f'{disciplines.name} ID: {disciplines.code}' for disciplines in self.disciplines]
                                 if self.disciplines else 'Nenhuma disciplina atribuída'
         }
