@@ -1,5 +1,6 @@
 # This is based off a basic CRUD (Crate-Read-Update-Delete) model
-import Disciplines as dp
+# Professores.py
+
 class Professor:
 
     # Creates a teacher Object
@@ -16,10 +17,11 @@ class Professor:
             'Nome: ': self.name,
             'ID: ': self.ID,
             'Departamento: ': self.departament,
-            'Disciplinas: ': self.disciplines if self.disciplines else 'Nenhuma disciplina atribuída'
+            'Disciplinas: ': [f'{disciplines.name} ID: {disciplines.code}' for disciplines in self.disciplines] if self.disciplines else 'Nenhuma disciplina atribuída'
         }
         for key, value in info.items():
             print(f'{key}{value}')
+        print('\n')
 
     # Adds a discipline to Teacher
     def add_discipline(self, subject):

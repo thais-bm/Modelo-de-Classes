@@ -1,3 +1,4 @@
+# Main
 from classes import universidade as uni
 from classes import Departments as Depart
 from classes import Disciplines as Dp
@@ -7,20 +8,19 @@ existing_ID_list = []
 
 
 def teste_disciplinas():
+    print('Criando Professores')
     professor1 = pf.Professor('Jumento', id_generate('Jumento'), None)
     professor2 = pf.Professor('Burrico', id_generate('Burrico'), None)
     professor3 = pf.Professor('Cavalo', id_generate('Cavalo'), None)
     professor4 = pf.Professor('Ponei', id_generate('Ponei'), None)
 
-    print('\n')
-
+    print('\nCriando Disciplinas')
     materia1 = Dp.Disciplines('Geografia', id_generate('Geografia'), 12)
     materia2 = Dp.Disciplines('História', id_generate('História'), 12)
     materia3 = Dp.Disciplines('Matemática Discreta', id_generate('Matemática Discreta'), 12)
     materia4 = Dp.Disciplines('Histologia de Ondas Alternantes 3', id_generate('Histologia de Ondas Alternantes 3'), 12)
 
-    print('\n')
-
+    print('\nAdicionando professores a disciplinas e vice versa')
     add_prof_to_class(professor1, materia1)
     add_prof_to_class(professor2, materia1)
     add_prof_to_class(professor3, materia1)
@@ -28,19 +28,26 @@ def teste_disciplinas():
     add_prof_to_class(professor4, materia4)
     add_prof_to_class(professor1, materia2)
 
-    print('\n')
-
+    print('\nMostrnado informação das disciplinas')
     materia1.get_info()
+    materia2.get_info()
+    materia3.get_info()
+    materia4.get_info()
 
-    print('\n')
+    print('\nMostrando informação dos professores')
+    professor1.get_info()
+    professor2.get_info()
+    professor3.get_info()
+    professor4.get_info()
 
+    print('\nApagando os professores')
     delete_professor(professor1)
-    print('\n')
     delete_professor(professor2)
-    print('\n')
-    delete_discipline(materia1)
-    print('\n')
     delete_professor(professor3)
+
+    print('\nApagando uma materia')
+    delete_discipline(materia1)
+
     print('\nfim de tudo')
 
 

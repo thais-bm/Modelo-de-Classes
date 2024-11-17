@@ -1,5 +1,5 @@
 # This is based off a basic CRUD (Crate-Read-Update-Delete) model
-import professores as pf
+# Disciplines.py
 
 class Disciplines:
 
@@ -18,16 +18,16 @@ class Disciplines:
             'Código da matéria: ': self.code,
             'Carga Horária: ': self.workload,
         }
-        print('\n')
         for key, value in info.items():
             print(f'{key}{value}')
-
         if not self.professors == []:
             print(f'professores:')
             for professor in self.professors:
                 print(f'{professor.name} ID: {professor.ID}')
         else:
-            print(f'Nenhum professor atribuído.\n')
+            print(f'Nenhum professor atribuído.')
+
+        print('\n')
 
     # Adds a Teacher to discipline
     def add_professor(self, professor):
