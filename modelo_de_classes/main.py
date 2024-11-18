@@ -198,7 +198,7 @@ while True:
                                 if answer == '1':
                                     new_dp = Depart.Department(new_name, new_id)
                                     access_uni.departments.append(new_dp)
-                                    departamentos_geral.append(new_dp)
+                                    access_uni.add_department(new_dp)
                                     break
                                 elif answer == '0':
                                     existing_ID_list.remove(new_id)
@@ -326,7 +326,55 @@ while True:
         
         # LOOP 2 - Departamentos
     elif answer == '2':
-        #oi quando fizer um módulo pra parte de departamentos que entra lá na parte de universidade pode botar aqui tbm?
-        #só que usando como lista o departamentos_geral e tambem eu alterei um pouco aquela parte do codigo
+        while True:
+            print(f'DEPARTAMENTOS\n1 - Listar\n2 - Adicionar novo\n3- Selecionar\n0 - Voltar')
+            answer = input()
+            if answer == '1':
+                if len(departamentos_geral) == 0:
+                    print('Nenhum departamento registrado')
+                else:
+                    for dp in departamentos_geral:
+                        print(f'\n{dp.name} - {dp.code}')
+                        if dp.university != None:
+                            print(f'{dp.university}')
+            
+            elif answer == '2':
+                if len(universidades) == 0:
+                    print('Departamentos não podem ser criados sem que exista uma universidade.')
+                else:
+                    print('Criando departamento.\nID da universidade onde o departamento será criado:')
+                    answer = input()
+                    univ = None
+                    exists = False
+                    for univeridade in universidades:
+                        if univeridade.university_id == answer:
+                            univ = univeridade
+                            exists = True
+                    if exists == False:
+                        print('\nUniversidade não encontrada.')
+                    else:
+                        print('\nNome do departamento novo:')
+                        answer = input()
+                        new_name = answer
+                        new_id = id_generate(new_name)
+
+                        while True:
+                            print(f'Criar departamento {new_name} - {new_id} em {univ.name}?\n1 - Sim\n0 - Não')
+                            answer = input()
+
+                            if answer == '0':
+                                existing_ID_list.remove(new_id)
+                                break
+                            elif answer == '1':
+                                new_dp = Depart.Department(new_name, new_id)
+                                univ.add_department(new_dp)
+                                departamentos_geral.append(new_dp)
+            elif answer == '3':
+                #colocar aqui a função com o loop de quando seleciona um departamento pelo menu da universidade
+                pass
+
+            elif answer == '0':
+                break
 
     elif answer == '3':
+        pass
