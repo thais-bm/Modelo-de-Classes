@@ -351,7 +351,7 @@ while True:
             elif answer == '0':
                 break
         
-        # LOOP 2 - Departamentos
+    # LOOP 2 - Departamentos
     elif answer == '2':
         while True:
             print(f'DEPARTAMENTOS\n1 - Listar\n2 - Adicionar novo\n3- Selecionar\n0 - Voltar')

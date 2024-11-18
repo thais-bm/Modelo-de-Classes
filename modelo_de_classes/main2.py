@@ -6,11 +6,14 @@ from classes import professores as pf
 
 existing_ID_list = []
 
+
 def not_ready():
     print('Não ta pronto')
 
+
 def teste_disciplinas():
     pass
+
 
 def id_generate(name=str()):
     new_id = str()
@@ -57,7 +60,7 @@ def add_prof_to_class(prof, materia):
 
 def create_universities():
     print('\n== Adicionando nova universidade. ==')
-    answer = str(input('None: '))
+    answer = str(input('Nome: '))
     new_name = answer
     new_id = id_generate(answer)
 
@@ -76,6 +79,7 @@ def list_universities():
     if not universidades:
         print("\nNenhuma universidade registrada.")
     else:
+        print('== Universidades existentes ==')
         for uni in universidades:
             print(f'{uni.university_name} - {uni.university_ID}')
 
@@ -98,8 +102,7 @@ def manage_universities():
             list_universities()
         # Select existing Uni
         elif answer == '3':
-            print('\n\nID da universidade a ser acessada: \n')
-            access_id = str(input()).lower()
+            access_id = str(input('\nID da universidade a ser acessada: ')).lower()
             accessed_university = None
             for universidade in universidades:
                 if universidade.university_ID == access_id:
@@ -115,6 +118,7 @@ def manage_universities():
             print("Opção inválida. Tente novamente.")
 
 
+# Adds a department to a university
 def add_department_to_university(university):
     print(f"Adicionando novo departamento para {university.university_name}.")
     name = input("Nome do Departamento: ")
@@ -162,7 +166,8 @@ def update_university_info(university):
         code = id_generate(name)
 
         # Perguntar confirmação
-        print(f'\n\nConfirma mudar o nome de {university.university_name} - {university.university_ID} para {name} - {code}?')
+        print(f'\n\nConfirma mudar o nome de {university.university_name} - {university.university_ID} '
+              f'para {name} - {code}?')
         print(f'1 - Sim\n0 - Não\n')
         answer = str(input("Escolha uma opção: "))
 
@@ -177,7 +182,6 @@ def update_university_info(university):
             print("Opção inválida. Tente novamente.")
 
 
-
 def selected_university_menu(university):
     while True:
         print(f"\n--- Gerenciar Universidade: {university.university_name} ---")
@@ -186,7 +190,8 @@ def selected_university_menu(university):
         print("3. Selecionar Departamento")
         print('4. Deletar Universidade')
         print('5. Atualizar Universidade')
-        print("0. Voltar")
+        print('6. Informacoes da Universidade')
+        print("0. Voltar\n")
 
         answer = str(input("Escolha uma opção: "))
         if answer == '0':
@@ -202,6 +207,9 @@ def selected_university_menu(university):
                 return
         elif answer == '5':
             update_university_info(university)
+        elif answer == '6':
+            print('== Informações ==')
+            uni.Universidade.get_info(university)
 
 
 def list_professors(department):
@@ -223,10 +231,11 @@ def add_existing_professor(department):
             break
 
     if found_professor:
-        department.add_professor(found_professor)
+        department.add_teacher(found_professor)
         print(f'Professor {found_professor.self} adicionado com sucesso ao {department.name}.')
     else:
         print('Professor não encontrado.')
+
 
 def add_new_professor(department):
     print(f'Criando um novo professor para adicionar ao departamento {department.name}.')
@@ -235,7 +244,6 @@ def add_new_professor(department):
     new_professor = pf.Professor(name, new_id)
     department.add_teacher(new_professor)
     professores_geral.append(new_professor)  # Adiciona ao banco de dados de professores
-    print(f'Professor {name} criado e adicionado ao departamento {department.name}.')
 
 
 def remove_department(department, university):
@@ -244,6 +252,7 @@ def remove_department(department, university):
     print(f'Departamento {department.name} removido com sucesso de {university.university_name}.')
     # Departamento não vive sem a universidade, então se apagar, ele morre
     Depart.Department.delete_department(department)
+
 
 def add_professor(department):
     while True:
@@ -261,12 +270,13 @@ def add_professor(department):
         else:
             print("Opção inválida.")
 
+
 def select_professor(department):
     prof_exists = False
     answer = str(input('ID do professor no departamento: '))
     for professor in department.professores:
         if professor.ID == answer:
-            # loop_professor(professor)  # Função para gerenciar o professor selecionado
+            manage_selected_professor(professor, department)
             prof_exists = True
             break
     if not prof_exists:
@@ -289,8 +299,7 @@ def manage_department(department):
         elif answer == '1':
             list_professors(department)
         elif answer == '2':
-            not_ready()
-            # select_professor(department)
+            select_professor(department)
         elif answer == '3':
             add_professor(department)
         elif answer == '4':
@@ -299,13 +308,13 @@ def manage_department(department):
         else:
             print("Opção inválida.")
 
+
 def select_to_manage_departments(university):
     exists = False
     if len(university.departments) == 0:
         print('\nNenhum departamento encontrado')
     else:
-        print(f'\nID do departamento a ser acessado em {university.university_name}: ')
-        answer = str(input())
+        answer = str(input(f'\nID do departamento a ser acessado em {university.university_name}: '))
         for dep in university.departments:
             if str(dep.code) == answer:
                 exists = True
@@ -316,13 +325,115 @@ def select_to_manage_departments(university):
             print('\nDepartamento não encontrado.')
 
 
+def change_add_professor_to_department(professor):
+    print(f'\nAlterando departamento de {professor.name}.\nID do departamento:')
+    answer = input()
+    exists = False
+    for dp in departments_geral:
+        if dp.code == answer:
+            professor.departament = dp
+            exists = True
+            print(f'\nDepartamento de {professor.name} alterado para {dp.name} - {dp.code}')
+    if not exists:
+        print(f'\nDepartamento não encontrado.')
+
+
+def list_professor_disciplines(professor):
+    if len(professor.disciplines) == 0:
+        print('\nProfessor não leciona nenhuma disciplina.')
+    else:
+        for disc in professor.disciplines:
+            print(f'\n{disc.name} - {disc.code} / Carga horária {disc.workload} horas')
+
+
+def select_professor_discipline(professor):
+    print('\nSelecionando disciplina. (nao ta pegando)\nID:')
+    answer = str(input())
+    exists = False
+    for disc in professor.disciplines:
+        if disc.code == answer:
+            exists = True
+            loop_disciplinas(disc)
+            not_ready()
+    else:
+        print('\nDisciplina não lecionada pelo professor.')
+
+
+def add_existing_discipline(professor):
+    print('\nDisciplina existente\nID:')
+    answer = str(input())
+    exists_dc = False
+    for dc in disciplinas_geral:
+        if dc.code == answer:
+            professor.add_discipline(dc)
+            exists = True
+    if not exists:
+        print('\nDisciplina não encontrada')
+
+
+def creating_discipline_to_teacher(professor):
+    print(f'\nCriando disciplina e adicionando diretamente a matérias lecionadas por {professor.name}\n')
+    answer = str(input('Nome da disciplina: '))
+    new_name = answer
+    new_id = id_generate(answer)
+
+    print(f'\nNome: {new_name} | ID: {new_id}\nCarga Horária (em horas):')
+    answer = int(input())
+    new_workload = answer
+
+    while True:
+        print(f'Nova matéria criada e lecionada por {professor.name}:\n'
+              f'{new_name} - {new_id} | CH: {new_workload}\n'
+              f'Confirmar?\n'
+              f'1 - Sim\n'
+              f'0 - Não')
+        answer = str(input('Escolha sua opcao: '))
+        if answer == '1':
+            new_discipline = Dp.Disciplines(new_name, new_id, new_workload)
+            disciplinas_geral.append(new_discipline)
+            professor.add_discipline(new_discipline)
+            break
+        else:
+            existing_ID_list.remove(new_id)
+            break
+
+
+def manage_selected_professor(professor, department):
+    while True:
+        print(f'Acessando professor {professor.name} - {professor.ID}')
+        if department is not None:
+            print(f'departamento {professor.departament.name}')
+        print(f'1 - Trocar/Adicionar a departamento\n'
+              f'2 - Listar matérias lecionadas\n'
+              f'3 - Selecionar matéria lecionada\n'
+              f'4 - Adicionar disciplina a ser lecionada\n'
+              f'0 - Voltar')
+        answer = str(input('Escolha uma opção: '))
+        if answer == '0':
+            break
+        elif answer == '1':
+            change_add_professor_to_department(professor)
+
+        elif answer == '2':
+            list_professor_disciplines(professor)
+
+        elif answer == '3':
+            select_professor_discipline(professor)
+
+        elif answer == '4':
+            creating_discipline_to_teacher(professor)
+
+
+def loop_disciplinas(disciplina):
+    pass
+
 
 def main_menu():
     while True:
         print(f'\nSISTEMA {system_name}\n'
               f'SELECIONAR OPÇÃO:\n'
               f'1 - Gerenciar Universidades\n'
-              f'2 - Gerenciar Departamentos\n'
+              f'2 - Gerenciar Departamentos (talvez eu remova ele)\n'
               f'3 - Gerenciar Professores\n'
               f'4 - Gerenciar Disciplinas\n'
               f'0 - Finalizar\n'
