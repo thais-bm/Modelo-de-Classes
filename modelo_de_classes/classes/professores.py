@@ -4,7 +4,7 @@
 class Professor:
 
     # Creates a teacher Object
-    def __init__(self, name, code, departament):
+    def __init__(self, name, code, departament=None):
         self.name = name
         self.ID = code
         self.departament = departament
