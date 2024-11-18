@@ -61,7 +61,7 @@ nome_do_sistema = 'nome do sistema a ser decidido'
 # MAIN LOOP
 while True:
 
-    print(f'\nSISTEMA {nome_do_sistema}\nSELECIONAR OPÇÃO:\n1 - Universidades\n2 - Departamentos\n3 - Professores\n4 - Disciplinas\n0 - Finalizar\n\n')
+    print(f'\nSISTEMA {nome_do_sistema}\nSELECIONAR OPÇÃO:\n1 - Universidades\n2 - Departamentos (opção provavelmente vai ser removida mas o resto vai ser mantido)\n3 - Professores\n4 - Disciplinas\n0 - Finalizar\n\n')
     answer = input()
     if answer == '0':
         break
