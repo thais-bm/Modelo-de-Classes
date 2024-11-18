@@ -58,13 +58,89 @@ disciplinas_geral = []
 
 nome_do_sistema = 'nome do sistema a ser decidido'
 
-def loop_professor(professor):
+def loop_professor(professor = pf.Professor):
+    while True:
+        print(f'Acessando professor {professor.name} - {professor.ID}')
+        if departamento != None:
+            print(f'departamento {professor.department}')
+        print(f'1 - Trocar/Adicionar a departamento\n2 - Listar matérias lecionadas\n3 - Selecionar matéria lecionada\n4 - Adicionar disciplina a ser lecionada\n0 - Voltar')
+        answer = input()
+        if answer == '0':
+            break
+        elif answer == '1':
+            print(f'\nAlterando departamento de {professor.name}.\nID do departamento:')
+            answer = input()
+            exists = False
+            for dp in departamentos_geral:
+                if dp.code == answer:
+                    professor.department = dp
+                    exists = True
+                    print(f'\nDepartamento de {professor.name} alterado para {dp.name} - {dp.code}')
+            if exists == False:
+                print(f'\nDepartamento não encontrado.')
+        elif answer == '2':
+            if len(professor.disciplines) == 0:
+                print('\nProfessor não leciona nenhuma disciplina.')
+            else:
+                for disc in professor.disciplines:
+                    print(f'\n{disc.name} - {disc.code} / Carga horária {disc.workload} horas')
+        
+        elif answer == '3':
+            print('\nSelecionando disciplina.\nID:')
+            answer = input()
+            exists = False
+            for disc in professor.disciplines:
+                if disc.code == answer:
+                    exists = True
+                    loop_disciplinas(disc)
+            else:
+                print('\nDisciplina não lecionada pelo professor.')
+
+        elif answer == '4':
+            while True:
+                print('\nAdicionando disciplina ao professor.\n1 - Disciplina existente\n2 - Disciplina nova\n0 - Voltar')
+                answer = input()
+                if answer == '0':
+                    break
+                elif answer == '1':
+                    print('\nDisciplina existente\nID:')
+                    answer = input()
+                    exists_dc = False
+                    for dc in disciplinas_geral:
+                        if dc.code == answer:
+                            professor.add_discipline(dc)
+                            exists == True
+                    if exists == False:
+                        print('\nDisciplina não encontrada')
+                elif answer == '2':
+                    print(f'\nCriando disciplina e adicionando diretamente a matérias lecionadas por {professor.name}\nNome da disciplina:')
+                    answer == input()
+                    new_name = answer
+                    new_id = id_generate(answer)
+
+                    print(f'\nNome: {new_name} | ID: {new_id}\nCarga Horária (em horas):')
+                    answer = int(input)
+                    new_workload = answer
+
+                    while True:
+                        print(f'Nova matéria criada e lecionada por {professor.name}:\n{new_name} - {new_id} | CH: {new_workload}\nConfirmar?\n1 - Sim\n0 - Não')
+                        answer = input()
+                        if answer == '1':
+                            new_discipline = Dp.Disciplines(new_name, new_id, new_workload)
+                            disciplinas_geral.append(new_discipline)
+                            professor.add_discipline(new_discipline)
+                            break
+                        else:
+                            existing_ID_list.remove(new_id)
+                            break
+
+def loop_disciplinas(disciplina):
     pass
 
 # MAIN LOOP
 while True:
 
-    print(f'\nSISTEMA {nome_do_sistema}\nSELECIONAR OPÇÃO:\n1 - Universidades\n2 - Departamentos (opção provavelmente vai ser removida mas o resto vai ser mantido)\n3 - Professores\n4 - Disciplinas\n0 - Finalizar\n\n')
+    print(f'\nSISTEMA {nome_do_sistema}\nSELECIONAR OPÇÃO:\n1 - Universidades\n2 - Departamentos\n3 - Professores\n4 - Disciplinas\n0 - Finalizar\n\n')
     answer = input()
     if answer == '0':
         break
@@ -120,7 +196,9 @@ while True:
                                 answer = input()
 
                                 if answer == '1':
-                                    access_uni.departments.append(Depart.Department(new_name, new_id))
+                                    new_dp = Depart.Department(new_name, new_id)
+                                    access_uni.departments.append(new_dp)
+                                    departamentos_geral.append(new_dp)
                                     break
                                 elif answer == '0':
                                     existing_ID_list.remove(new_id)
@@ -245,3 +323,10 @@ while True:
             # 0 - Voltar
             elif answer == '0':
                 break
+        
+        # LOOP 2 - Departamentos
+    elif answer == '2':
+        #oi quando fizer um módulo pra parte de departamentos que entra lá na parte de universidade pode botar aqui tbm?
+        #só que usando como lista o departamentos_geral e tambem eu alterei um pouco aquela parte do codigo
+
+    elif answer == '3':
