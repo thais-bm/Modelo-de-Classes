@@ -397,7 +397,71 @@ while True:
                                 univ.add_department(new_dp)
                                 departamentos_geral.append(new_dp)
             elif answer == '3':
-                #colocar aqui a função com o loop de quando seleciona um departamento pelo menu da universidade
+                while True:
+                    print(f'\nDEPARTAMENTO {departamento.name}\n1 - Listar professores\n2 - Selecionar professor\n3 - Adicionar professor\n4 - Remover departamento\n0 - voltar')
+                    answer = input()
+
+                    # 0 - Voltar
+                    if answer == '0':
+                        break
+                    # 1 - Listar professores
+                    elif answer == '1':
+                        if len(departamento.professores) == 0:
+                            print('Nenhum professor encontrado.')
+                        else:
+                            for professor in departamento.professores:
+                                print(f'\n{professor.self} - {professor.ID}')
+                                            
+                    # 2 - Selecionar professor
+                    elif answer == '2':
+                        prof_exists = False
+                        print('ID do professor no departamento')
+                        for professor in departamento:
+                            if professor.ID == answer:
+                                loop_professor(professor)
+                                prof_exists = True
+                        if not prof_exists:
+                            print('\nProfessor não encontrado ou não existe')
+
+                    # 3 - Adicionar professor
+                    elif answer == '3':
+                        while True:
+                            print(f'\nAdicionando professor a {departamento.name}.\n1 - Professor existente\n2 - Professor novo\n 0 - Voltar')
+                            answer = input()
+
+                            # 0 - Voltar
+                            if answer == '0':
+                                break
+                                                    
+                            # 1 - Professor existente
+                            elif answer == '1':
+                                if len(professores_geral) == 0:
+                                    print('\nNenhum professor registrado no sistema.')
+                                else:
+                                    print(f'\nAdicionando professor ao departamento {departamento.name}.\nID:')
+                                    answer == input()
+                                    for prof in professores_geral:
+                                        if prof.ID == answer:
+                                            departamento.add_teacher(prof)
+                                                    
+                            # 2 - Professor novo
+                            elif answer == '2':
+                                print('\nAdicionando novo professor diretamente ao departamento.\nNome:')
+                                answer = input()
+                                new_name = answer
+                                new_id = id_generate(new_name)
+
+                                while True:
+                                    print(f'Adicionar {new_name} - {new_id} ao sistema e diretamente ao departamento {departamento.name}?\n1 - Sim\n0 - Não')
+                                    answer = input()
+                                    if answer == '0':
+                                        existing_ID_list.remove(new_id)
+                                        break
+                                    elif answer == '1':
+                                        new_prof = pf.Professor(new_name, new_id, departamento)
+                                        departamento.professores.append(new_prof)
+                                        professores_geral.append(new_prof)
+                                        break
                 pass
 
             elif answer == '0':
