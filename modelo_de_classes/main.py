@@ -58,6 +58,9 @@ disciplinas_geral = []
 
 nome_do_sistema = 'nome do sistema a ser decidido'
 
+def loop_professor(professor):
+    pass
+
 # MAIN LOOP
 while True:
 
@@ -125,7 +128,65 @@ while True:
 
                         # 3 - Selecionar departamento
                         elif answer == '3':
-                            print('\nNão implementado :( mas não vai demorar')
+                            exists = False
+                            if len(access_uni.departments) == 0:
+                                print('\nNenhum departamento encontrado')
+                            else:
+                                print(f'\nID do departamento a ser acessado em {access_uni.university_name}:')
+                                answer = input()
+                                for dep in access_uni.departments:
+                                    if dep.code == answer:
+                                        exists = True
+                                        departamento = dep
+                                        # SUB-LOOP DEPARTAMENTO
+                                        while True:
+                                            print(f'\nDEPARTAMENTO {departamento.name}\n1 - Listar professores\n2 - Selecionar professor\n3 - Adicionar professor\n4 - Remover departamento\n0 - voltar')
+                                            answer = input()
+
+                                            # 0 - Voltar
+                                            if answer == '0':
+                                                break
+
+                                            # 1 - Listar professores
+                                            elif answer == '1':
+                                                if len(departamento.professores) == 0:
+                                                    print('Nenhum professor encontrado.')
+                                                else:
+                                                    for professor in departamento:
+                                                        print(f'\n{professor.self} - {professor.ID}')
+                                            
+                                            # 2 - Selecionar professor
+                                            elif answer == '2':
+                                                prof_exists = False
+                                                print('ID do professor no departamento')
+                                                for professor in departamento:
+                                                    if professor.ID == answer:
+                                                        loop_professor(professor)
+                                                        prof_exists = True
+                                                if not prof_exists:
+                                                    print('\nProfessor não encontrado ou não existe')
+
+                                            # 3 - Adicionar professor
+                                            elif answer == '3':
+                                                while True:
+                                                    print(f'\nAdicionando professor a {departamento.name}.\n1 - Professor existente\n2 - Professor novo\n 0 - Voltar')
+                                                    answer = input()
+
+                                                    # 0 - Voltar
+                                                    if answer == '0':
+                                                        break
+                                                    
+                                                    # 1 Professor existente
+                                                    elif answer == '1':
+                                                        pass
+                                            
+                                                    
+                                if exists == False:
+                                    print('\nProfessor não encontrado.')
+                            
+                                                
+                                            
+
                 else:
                     print(f'Universidade de ID {access_id} não encontrada.')
 
