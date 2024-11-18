@@ -56,15 +56,14 @@ def add_prof_to_class(prof, materia):
 
 
 def create_universities():
-    print('\nAdicionando nova universidade.\n'
-         'Nome:')
-    answer = str(input())
+    print('\n== Adicionando nova universidade. ==')
+    answer = str(input('None: '))
     new_name = answer
     new_id = id_generate(answer)
 
     while True:
         print(f'\n\nAdicionar universidade "{new_name} - {new_id}"?\n1 - Sim\n0 - Não\n\n')
-        answer = str(input())
+        answer = str(input("Escolha uma opção: "))
         if answer == '1':
             universidades.append(uni.Universidade(new_name, new_id))
             break
@@ -101,13 +100,14 @@ def manage_universities():
         elif answer == '3':
             print('\n\nID da universidade a ser acessada: \n')
             access_id = str(input()).lower()
-            access_university = None
+            accessed_university = None
             for universidade in universidades:
                 if universidade.university_ID == access_id:
-                    access_university = universidade
-                    selected_university_menu(access_university)
+                    accessed_university = universidade
+                    selected_university_menu(accessed_university)
                 else:
-                    print(f"Universidade de ID {access_university} não encontrada.")
+                    accessed_university = access_id
+                    print(f"Universidade de ID {accessed_university} não encontrada.")
         # Exit menu
         elif answer == '0':
             break
@@ -125,7 +125,7 @@ def add_department_to_university(university):
             f'\n1 - Sim\n'
             f'0 - Não\n'
             f'\n')
-        answer = str(input())
+        answer = str(input("Escolha uma opção: "))
         if answer == '1':
             department = Depart.Department(name, code)
             uni.Universidade.add_department(university, department)
@@ -142,7 +142,7 @@ def delete_university(university):
     while True:
         print(f'\nDeseja apagar "{university.university_name}"?')
         print("1 - Sim\n0 - Não")
-        answer = input().strip()
+        answer = str(input("Escolha uma opção: "))
         if answer == '1':
             universidades.remove(university)
             uni.Universidade.delete_university(university)
@@ -155,6 +155,29 @@ def delete_university(university):
             print("Opção inválida.")
 
 
+def update_university_info(university):
+    while True:
+        print(f"Atualizando dados de {university.university_name}.")
+        name = input("Novo nome da Universidade: ")
+        code = id_generate(name)
+
+        # Perguntar confirmação
+        print(f'\n\nConfirma mudar o nome de {university.university_name} - {university.university_ID} para {name} - {code}?')
+        print(f'1 - Sim\n0 - Não\n')
+        answer = str(input("Escolha uma opção: "))
+
+        if answer == '1':
+            # Realizar atualização
+            uni.Universidade.update_universidade(university, name, code)
+            break
+        elif answer == '0':
+            print("Operação cancelada.")
+            break
+        else:
+            print("Opção inválida. Tente novamente.")
+
+
+
 def selected_university_menu(university):
     while True:
         print(f"\n--- Gerenciar Universidade: {university.university_name} ---")
@@ -162,6 +185,7 @@ def selected_university_menu(university):
         print("2. Adicionar Departamento")
         print("3. Selecionar Departamento")
         print('4. Deletar Universidade')
+        print('5. Atualizar Universidade')
         print("0. Voltar")
 
         answer = str(input("Escolha uma opção: "))
@@ -172,12 +196,125 @@ def selected_university_menu(university):
         elif answer == '2':
             add_department_to_university(university)
         elif answer == '3':
-            # Falta Implementar
-            not_ready()
-            continue
+            select_to_manage_departments(university)
         elif answer == '4':
             if delete_university(university):
                 return
+        elif answer == '5':
+            update_university_info(university)
+
+
+def list_professors(department):
+    print(f'Professores do {department.name}')
+    if len(department.professores) == 0:
+        print('Nenhum professor encontrado.')
+    else:
+        for professor in department.professores:
+            print(f'{professor.name} - {professor.ID}')
+
+
+def add_existing_professor(department):
+    print(f'\nDigite o ID do professor existente para adicionar a {department.name}:')
+    professor_id = str(input())
+    found_professor = None
+    for professor in professores_geral:
+        if professor.ID == professor_id:
+            found_professor = professor
+            break
+
+    if found_professor:
+        department.add_professor(found_professor)
+        print(f'Professor {found_professor.self} adicionado com sucesso ao {department.name}.')
+    else:
+        print('Professor não encontrado.')
+
+def add_new_professor(department):
+    print(f'Criando um novo professor para adicionar ao departamento {department.name}.')
+    name = str(input("Nome do professor: "))
+    new_id = id_generate(name)  # Gerar um novo ID para o professor
+    new_professor = pf.Professor(name, new_id)
+    department.add_teacher(new_professor)
+    professores_geral.append(new_professor)  # Adiciona ao banco de dados de professores
+    print(f'Professor {name} criado e adicionado ao departamento {department.name}.')
+
+
+def remove_department(department, university):
+    print(f'Removendo departamento {department.name}.')
+    uni.Universidade.remove_department(university, department)
+    print(f'Departamento {department.name} removido com sucesso de {university.university_name}.')
+    # Departamento não vive sem a universidade, então se apagar, ele morre
+    Depart.Department.delete_department(department)
+
+def add_professor(department):
+    while True:
+        print(f'\nAdicionando professor a {department.name}.\n'
+              f'1 - Professor existente\n'
+              f'2 - Professor novo\n'
+              f'0 - Voltar')
+        answer = str(input("Escolha uma opção: "))
+        if answer == '0':
+            break
+        elif answer == '1':
+            add_existing_professor(department)
+        elif answer == '2':
+            add_new_professor(department)
+        else:
+            print("Opção inválida.")
+
+def select_professor(department):
+    prof_exists = False
+    answer = str(input('ID do professor no departamento: '))
+    for professor in department.professores:
+        if professor.ID == answer:
+            # loop_professor(professor)  # Função para gerenciar o professor selecionado
+            prof_exists = True
+            break
+    if not prof_exists:
+        print('\nProfessor não encontrado ou não existe')
+
+
+def manage_department(department):
+    while True:
+        print(
+            f'\nDEPARTAMENTO {department.name}\n'
+            f'1 - Listar professores\n'
+            f'2 - Selecionar professor\n'
+            f'3 - Adicionar professor\n'
+            f'4 - Apagar departamento\n'
+            f'0 - Voltar')
+        answer = str(input("Escolha uma opção: "))
+
+        if answer == '0':
+            break
+        elif answer == '1':
+            list_professors(department)
+        elif answer == '2':
+            not_ready()
+            # select_professor(department)
+        elif answer == '3':
+            add_professor(department)
+        elif answer == '4':
+            remove_department(department, department.university)
+            break
+        else:
+            print("Opção inválida.")
+
+def select_to_manage_departments(university):
+    exists = False
+    if len(university.departments) == 0:
+        print('\nNenhum departamento encontrado')
+    else:
+        print(f'\nID do departamento a ser acessado em {university.university_name}: ')
+        answer = str(input())
+        for dep in university.departments:
+            if str(dep.code) == answer:
+                exists = True
+                department = dep
+                manage_department(department)  # Chama a função para gerenciar o departamento
+                break
+        if not exists:
+            print('\nDepartamento não encontrado.')
+
 
 
 def main_menu():
@@ -210,7 +347,7 @@ def main_menu():
 
 
 universidades = []
-departamentos_geral = []
+departments_geral = []
 professores_geral = []
 disciplinas_geral = []
 

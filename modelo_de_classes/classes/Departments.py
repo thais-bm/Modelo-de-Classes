@@ -32,7 +32,7 @@ class Department:
             professor.departament = self
             print(f'Professor {professor.name} adicionado ao departamento {self.name}.')
         else:
-            print(f'Professor {professor.name} já está adicionado ao departamento {professor.departament.name}.')
+            print(f'Professor {professor.name} já está adicionado ao departamento {professor.departament}.')
 
     # Deletes a teacher from the department
     def delete_teacher(self, professor):
@@ -65,7 +65,7 @@ class Department:
     def delete_department(self):
         print(f'Departamento {self.name} deletado.')
         for professor in self.professores:
-            professor.departament = None
+            self.delete_teacher(professor)
         self.professores.clear()
         self.name = None
         self.code = None
