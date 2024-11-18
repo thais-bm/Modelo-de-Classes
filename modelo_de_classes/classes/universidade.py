@@ -26,7 +26,7 @@ class Universidade:
         print(f'Departamentos de {self.university_name}:')
         if len(self.departments) > 0:
             for department in self.departments:
-                print(f'{department.name} - {department.code}\n')
+                print(f'{department.name} - {department.code}')
         else:
             print('\n\nNenhum departamento na universidade.\n')
 
