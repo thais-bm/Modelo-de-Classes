@@ -7,84 +7,7 @@ from classes import professores as pf
 existing_ID_list = []
 
 def teste_disciplinas():
-    print('Criando Professores')
-    professor1 = pf.Professor('Jumento', id_generate('Jumento'), None)
-    professor2 = pf.Professor('Burrico', id_generate('Burrico'), None)
-    professor3 = pf.Professor('Cavalo', id_generate('Cavalo'), None)
-    professor4 = pf.Professor('Ponei', id_generate('Ponei'), None)
-
-    print('\nCriando Disciplinas')
-    materia1 = Dp.Disciplines('Geografia', id_generate('Geografia'), 12)
-    materia2 = Dp.Disciplines('História', id_generate('História'), 12)
-    materia3 = Dp.Disciplines('Matemática Discreta', id_generate('Matemática Discreta'), 12)
-    materia4 = Dp.Disciplines('Histologia de Ondas Alternantes 3', id_generate('Histologia de Ondas Alternantes 3'), 12)
-
-    print('\nCriando Universidades')
-    universidade1 = uni.Universidade('UFAM', id_generate('UFAM'))
-    universidade2 = uni.Universidade('UEA', id_generate('UEA'))
-
-    print('\nCriando Departamentos')
-    departament1 = Depart.Department('Computaria', id_generate('Computaria'))
-    departament2 = Depart.Department('Terraplanismo', id_generate('Terraplanismo'))
-
-    print('\nAdicionando professores a disciplinas e vice versa')
-    add_prof_to_class(professor1, materia1)
-    add_prof_to_class(professor2, materia1)
-    add_prof_to_class(professor3, materia1)
-    add_prof_to_class(professor3, materia3)
-    add_prof_to_class(professor4, materia4)
-    add_prof_to_class(professor1, materia2)
-
-    print(f'\nAdicionando professores a departamentos')
-    departament1.add_teacher(professor1)
-    departament1.add_teacher(professor2)
-    departament2.add_teacher(professor3)
-    departament2.add_teacher(professor4)
-
-    print(f'\nAdicionando departamento a universidades')
-    universidade1.add_department(departament1)
-    universidade2.add_department(departament2)
-
-    print('\nMostrnado informação das disciplinas')
-    materia1.get_info()
-    materia2.get_info()
-    materia3.get_info()
-    materia4.get_info()
-
-    print('\nListando professores e departamentos')
-    departament1.list_teachers()
-    departament2.list_teachers()
-    universidade1.list_departments()
-    universidade2.list_departments()
-
-    print('\nMostrando informação dos professores')
-    professor1.get_info()
-    professor2.get_info()
-    professor3.get_info()
-    professor4.get_info()
-
-    print('\nMostrando informação dos departamentos')
-    departament1.get_info()
-    departament2.get_info()
-
-    print('\nMonstrando informação de universidades')
-    universidade1.get_info()
-    universidade2.get_info()
-
-    print('\nDeletando universidades (é pra deletar os departamentos juntos)')
-    universidade1.delete_university()
-    universidade2.delete_university()
-
-    print('\nApagando os professores')
-    delete_professor(professor1)
-    delete_professor(professor2)
-    delete_professor(professor3)
-
-    print('\nApagando uma materia')
-    delete_discipline(materia1)
-
-    print('\nfim de tudo')
-
+    pass
 
 def id_generate(name=str()):
     new_id = str()
@@ -128,6 +51,75 @@ def add_prof_to_class(prof, materia):
     prof.add_discipline(materia)
     materia.add_professor(prof)
 
+universidades = []
+departamentos_geral = []
+professores_geral = []
+disciplinas_geral = []
 
-if __name__ == '__main__':
-    teste_disciplinas()
+nome_do_sistema = 'nome do sistema a ser decidido'
+
+# MAIN LOOP
+while True:
+
+    print(f'\nSISTEMA {nome_do_sistema}\nSELECIONAR OPÇÃO:\n1 - Universidades\n2 - Departamentos\n3 - Professores\n4 - Disciplinas\n0 - Finalizar\n\n')
+    answer = input()
+    if answer == '0':
+        break
+    elif answer == '1':
+
+        # LOOP 1 - UNIVERSIDADES
+        while True:
+            print('\nUNIVERSIDADES\n1 - Listar\n2 - Selecionar\n3 - Adicionar\n0 - Voltar\n\n')
+            answer = input()
+
+            # 1 - Listar
+            if answer == '1':
+                if len(universidades) == 0:
+                    print('\nNenhuma universidade registrada.')
+                else:
+                    for universidade in universidades:
+                        print(f'\n{universidade.university_name} - {universidade.university_ID}')
+            
+            # 2 - Selecionar
+            elif answer == '2':
+                print('\n\nID da universidade a ser acessada:\n')
+                access_id = input().lower()
+                access_uni = 0
+                exists = False
+                for universidade in universidades:
+                    if universidade.university_ID == access_id:
+                        access_uni = universidade
+                        exists = True
+                # SUB-LOOP UNIVERSIDADE SELECIONADA
+                if exists == True:
+                    while True:
+                        print(f'\nUniversidade {access_uni.university_name} - {access_id} selecionada. Selecionar opção:\n1 - Listar departamentos\n2 - Adicionar departamento\n3 - Selecionar departamento\n0 - Voltar\n\n')
+                        answer = input()
+                        if answer == '0':
+                            break
+                        else:
+                            print('\nfalta implementar essa parte. pelo menos funciona o 0 pra voltar.')
+                else:
+                    print(f'Universidade de ID {access_id} não encontrada.')
+
+            # 3 - Adicionar
+            elif answer == '3':
+                print('\nAdicionando nova universidade.\nNome:')
+                answer = input()
+                new_name = answer
+                new_id = id_generate(answer)
+
+                while True:
+                    print(f'\n\nAdicionar universidade "{new_name} - {new_id}"?\n1 - Sim\n0 - Não\n\n')
+                    answer = input()
+
+                    if answer == '1':
+                        universidades.append(uni.Universidade(new_name, new_id))
+                        break
+                    elif answer == '0':
+                        existing_ID_list.remove(new_id)
+                        break
+
+            # 0 - Voltar
+            elif answer == '0':
+                break

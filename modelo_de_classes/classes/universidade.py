@@ -23,8 +23,12 @@ class Universidade:
             print(f'Departamento {department.name} não encontrado em {self.university_name}.')
 
     def list_departments(self):
-        print(f'Departamentos de {self.university_name}: {[department.name for department in self.departments]
-                                                            if self.departments else 'Sem departamentos designados'}')
+        print(f'Departamentos de {self.university_name}:')
+        if len(self.departments) > 0:
+            for department in self.departments:
+                print(f'{department.name} - {department.code}\n')
+        else:
+            print('\n\nNenhum departamento na universidade.\n')
 
 
     def get_info(self):
