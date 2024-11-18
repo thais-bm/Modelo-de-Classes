@@ -134,8 +134,35 @@ def loop_professor(professor = pf.Professor):
                             existing_ID_list.remove(new_id)
                             break
 
-def loop_disciplinas(disciplina):
-    pass
+def loop_disciplinas(disciplina = Dp.Disciplines):
+    while True:
+        print(f'Disciplina {disciplina.name} selecionada.\n1 - Listar professores que lecionam\n2 - Remover professor que leciona\n3 - Remover disciplina do sistema\n0 - Voltar')
+        answer = input()
+        if answer == '0':
+            break
+        elif answer == '1':
+            for prof in disciplina.professors:
+                print(f'\n{professor.name} - {professor.ID}')
+        elif answer == '2':
+            print('\nID do professor a ser removido:')
+            answer = input
+            exists = False
+            for prof in disciplina.professors:
+                if prof.ID == answer:
+                    prof.remove_discipline(disciplina)
+                    disciplina.remove_professor(prof)
+                    exists == True
+                    pass
+            if exists == False:
+                print('\nProfessor não encontrado lecionando essa disciplina.')
+        elif answer == '3':
+            while True:
+                print(f'Tem certeza que quer remover {disciplina.name} - {disciplina.code} do sistema?\n1 - Sim\n0 - Não, voltar')
+                answer = input()
+                if answer == '0':
+                    break
+                elif answer == '1':
+                    delete_discipline(disciplina)
 
 # MAIN LOOP
 while True:
@@ -376,5 +403,89 @@ while True:
             elif answer == '0':
                 break
 
+    # loop 3 professores :(
     elif answer == '3':
-        pass
+        while True:
+            print('Professores\n1 - Listar\n2 - Adicionar\n3 - Selecionar\n0 - Voltar')
+            answer = input()
+            if answer == '0':
+                break
+            elif answer == '1':
+                if len(professores_geral) == 0:
+                    print('\nnenhum professor registrada')
+                else:
+                    for disc in professores_geral:
+                        print(f'\n{disc.name} - {disc.ID}')
+
+            elif answer == '2':
+                print('\nAdicionando nova disciplina.\nNome:')
+                answer = input()
+                new_name = answer
+                new_id = id_generate(answer)
+
+                while True:
+                    print(f'\n\nAdicionar professor {new_name} - {new_id}?\n1 - Sim\n0 - Não\n\n')
+                    answer = input()
+
+                    if answer == '1':
+                        new_disc = pf.Professor(new_name, new_id)
+                        professores_geral.append(new_disc)
+                        break
+                    elif answer == '0':
+                        existing_ID_list.remove(new_id)
+                        break
+            
+            elif answer == '3':
+                print('\nSelecionando professor existente.\nID:')
+                answer = input()
+                exists = False
+                for disc in professores_geral:
+                    if disc.ID == answer:
+                        loop_professor(disc)
+                        pass
+            
+            
+
+    #4 loop das disciplinas nao aguento mais
+    elif answer == '4':
+        while True:
+            print('\nDisciplinas\n1 - Listar\n2 - Criar nova\n3 - Selecionar\n0 - Voltar')
+            answer = input()
+            if answer == '0':
+                break
+            elif answer == '1':
+                if len(disciplinas_geral) == 0:
+                    print('\nnenhuma disciplina registrada')
+                else:
+                    for disc in disciplinas_geral:
+                        print(f'\n{disc.name} - {disc.code} | carga horária :{disc.workload}')
+            
+            elif answer == '2':
+                print('\nAdicionando nova disciplina.\nNome:')
+                answer = input()
+                new_name = answer
+                new_id = id_generate(answer)
+
+                print('\nCarga horária:')
+                answer = int(input())
+                new_workload = answer
+
+                while True:
+                    print(f'\n\nAdicionar disciplina {new_name} - {new_id} com carga horária de {new_workload}h?\n1 - Sim\n0 - Não\n\n')
+                    answer = input()
+
+                    if answer == '1':
+                        new_disc = Dp.Disciplines(new_name, new_id,new_workload)
+                        disciplinas_geral.append(new_disc)
+                        break
+                    elif answer == '0':
+                        existing_ID_list.remove(new_id)
+                        break
+            elif answer == '3':
+                print('\nSelecionando disciplina existente.\nID:')
+                answer = input()
+                exists = False
+                for disc in disciplinas_geral:
+                    if disc.code == answer:
+                        loop_disciplinas(disc)
+                        pass
