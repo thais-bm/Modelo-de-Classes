@@ -95,10 +95,37 @@ while True:
                     while True:
                         print(f'\nUniversidade {access_uni.university_name} - {access_id} selecionada. Selecionar opção:\n1 - Listar departamentos\n2 - Adicionar departamento\n3 - Selecionar departamento\n0 - Voltar\n\n')
                         answer = input()
+                        # 0 - Voltar
                         if answer == '0':
                             break
-                        else:
-                            print('\nfalta implementar essa parte. pelo menos funciona o 0 pra voltar.')
+                        # 1 - Listar departamentos
+                        elif answer == '1':
+                            if len(access_uni.departments) > 0:
+                                for department in access_uni.departments:
+                                    print(f'\n{department.name} - {department.code}')
+                            else:
+                                print('\nNenhum departamento encontrado.')
+                        # 2 - Adicionar departamento
+                        elif answer == '2':
+                            print(f'\nAdicionando novo departamento para {access_uni.university_name}.\nNome:')
+                            answer = input()
+                            new_name = answer
+                            new_id = id_generate(answer)
+
+                            while True:
+                                print(f'\n\nAdicionar departamento "{new_name} - {new_id} em {access_uni.university_name} - {access_id}"?\n1 - Sim\n0 - Não\n\n')
+                                answer = input()
+
+                                if answer == '1':
+                                    access_uni.departments.append(Depart.Department(new_name, new_id))
+                                    break
+                                elif answer == '0':
+                                    existing_ID_list.remove(new_id)
+                                    break
+
+                        # 3 - Selecionar departamento
+                        elif answer == '3':
+                            print('\nNão implementado :( mas não vai demorar')
                 else:
                     print(f'Universidade de ID {access_id} não encontrada.')
 
