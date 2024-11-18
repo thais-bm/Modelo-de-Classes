@@ -152,7 +152,7 @@ while True:
                                                 if len(departamento.professores) == 0:
                                                     print('Nenhum professor encontrado.')
                                                 else:
-                                                    for professor in departamento:
+                                                    for professor in departamento.professores:
                                                         print(f'\n{professor.self} - {professor.ID}')
                                             
                                             # 2 - Selecionar professor
@@ -176,14 +176,48 @@ while True:
                                                     if answer == '0':
                                                         break
                                                     
-                                                    # 1 Professor existente
+                                                    # 1 - Professor existente
                                                     elif answer == '1':
-                                                        pass
-                                            
+                                                        if len(professores_geral) == 0:
+                                                            print('\nNenhum professor registrado no sistema.')
+                                                        else:
+                                                            print(f'\nAdicionando professor ao departamento {departamento.name}.\nID:')
+                                                            answer == input()
+                                                            for prof in professores_geral:
+                                                                if prof.ID == answer:
+                                                                    departamento.add_teacher(prof)
                                                     
+                                                    # 2 - Professor novo
+                                                    elif answer == '2':
+                                                        print('\nAdicionando novo professor diretamente ao departamento.\nNome:')
+                                                        answer = input()
+                                                        new_name = answer
+                                                        new_id = id_generate(new_name)
+
+                                                        while True:
+                                                            print(f'Adicionar {new_name} - {new_id} ao sistema e diretamente ao departamento {departamento.name}?\n1 - Sim\n0 - Não')
+                                                            answer = input()
+                                                            if answer == '0':
+                                                                existing_ID_list.remove(new_id)
+                                                                break
+                                                            elif answer == '1':
+                                                                new_prof = pf.Professor(new_name, new_id, departamento)
+                                                                departamento.professores.append(new_prof)
+                                                                professores_geral.append(new_prof)
+                                                                break
                                 if exists == False:
                                     print('\nProfessor não encontrado.')
-                            
+                                
+                        # 4 - Remover departamento
+                        elif answer == '4':
+                            while True:
+                                print(f'Tem certeza que deseja remover o departamento {departamento.name}?\n1 - Sim\n0 - Não, voltar.')
+                                answer = input()
+                                if answer == 0:
+                                    break
+                                elif answer == 1:
+                                    departamento.delete_department()
+                                    break                   
                                                 
                                             
 
