@@ -61,7 +61,7 @@ nome_do_sistema = 'nome do sistema a ser decidido'
 def loop_professor(professor = pf.Professor):
     while True:
         print(f'Acessando professor {professor.name} - {professor.ID}')
-        if departamento != None:
+        if professor.departament != None:
             print(f'departamento {professor.department}')
         print(f'1 - Trocar/Adicionar a departamento\n2 - Listar matérias lecionadas\n3 - Selecionar matéria lecionada\n4 - Adicionar disciplina a ser lecionada\n0 - Voltar')
         answer = input()
@@ -105,7 +105,7 @@ def loop_professor(professor = pf.Professor):
                 elif answer == '1':
                     print('\nDisciplina existente\nID:')
                     answer = input()
-                    exists_dc = False
+                    exists = False
                     for dc in disciplinas_geral:
                         if dc.code == answer:
                             professor.add_discipline(dc)
